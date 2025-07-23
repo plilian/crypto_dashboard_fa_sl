@@ -2,7 +2,6 @@ import streamlit as st
 import commands
 import utils
 
-# --- Initial Page Config ---
 st.set_page_config(
     page_title="داشبورد رمزارز گنجه",
     page_icon="📈",
@@ -10,18 +9,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- Dark Theme CSS ---
 custom_css = f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-    /* General styling for text and font */
     html, body, [class*="st-"] {{
         font-family: 'Inter', sans-serif;
         color: #e0f2f7;
+        direction: rtl; /* Apply RTL to the entire body */
+        text-align: right; /* Align text to the right */
     }}
 
-    /* Main content area styling */
     .main {{
         background-color: #34495e;
         padding: 20px;
@@ -31,98 +29,109 @@ custom_css = f"""
         background-color: #34495e;
     }}
 
-    /* Sidebar styling (Commands Menu) */
     .sidebar .sidebar-content {{
         background-color: #000000;
         color: #e0f2f7;
     }}
-    /* Adjust sidebar header and radio button text color for consistency */
     .stSidebar h1, .stSidebar h2, .stSidebar h3, .stSidebar h4, .stSidebar h5, .stSidebar h6 {{
-        color: #e0f2f7; /* Ensure sidebar headers are light */
+        color: #e0f2f7;
+        text-align: right; /* Ensure sidebar headers are right-aligned */
     }}
-    .stRadio > label {{ /* Targeting radio button labels in sidebar */
-        color: #e0f2f7; /* Ensure radio button text is light */
+    .stRadio > label {{
+        color: #e0f2f7;
+        text-align: right; /* Ensure radio button text is right-aligned */
     }}
     .stRadio [data-testid="stRadio"] > div > label {{
-        color: #e0f2f7; /* Specific selector for radio button text */
+        color: #e0f2f7;
+        text-align: right; /* Specific selector for radio button text alignment */
+    }}
+    /* Ensure radio button options themselves are right-aligned */
+    .stRadio > div[data-baseweb="radio"] > label {{
+        flex-direction: row-reverse; /* Swap icon and text direction */
+        justify-content: flex-end; /* Align content to the right */
     }}
 
 
-    /* Titles and headings styling */
     h1, h2, h3, h4, h5, h6 {{
-        color: #e94560; /* Vibrant accent color for titles */
-        text-align: left;
+        color: #e94560;
+        text-align: right; /* Align headings to the right */
     }}
 
-    /* Button styling */
     .stButton>button {{
-        background-color: #a7d9e8; /* Dark blue for buttons */
-        color: white; /* White text on buttons for good contrast */
+        background-color: #a7d9e8;
+        color: white;
         border-radius: 8px;
         border: none;
         padding: 10px 20px;
         font-weight: 600;
         transition: all 0.2s ease-in-out;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        direction: rtl; /* Apply RTL to button text */
     }}
     .stButton>button:hover {{
-        background-color: #7bc6e0; /* Purple on hover for interactivity */
+        background-color: #7bc6e0;
         transform: translateY(-2px);
         box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }}
 
-    /* Input fields and Selectboxes styling */
     .stTextInput>div>div>input,
     .stSelectbox>div>div>div {{
-        background-color: #16213e; /* Slightly lighter dark blue for input fields */
-        color: #e0e0e0; /* Light text color for input */
+        background-color: #16213e;
+        color: #e0e0e0;
         border-radius: 8px;
-        border: 1px solid #533483; /* Accent border color */
+        border: 1px solid #533483;
         padding: 10px;
+        direction: rtl; /* Apply RTL to input fields */
+        text-align: right; /* Align text within input fields to the right */
     }}
-    /* Styling for dropdown options in selectbox */
     .stSelectbox > div[data-baseweb="select"] ul {{
-        background-color: #16213e; /* Dropdown menu background */
-        color: #e0e0e0; /* Dropdown menu text color */
+        background-color: #16213e;
+        color: #e0e0e0;
+        direction: rtl; /* Apply RTL to selectbox dropdown options */
+        text-align: right; /* Align text within selectbox dropdown options to the right */
     }}
     .stSelectbox > div[data-baseweb="select"] li:hover {{
-        background-color: #0f3460; /* Dropdown menu item hover */
+        background-color: #0f3460;
     }}
 
-
-    /* Other Streamlit elements styling */
     .stAlert {{
         border-radius: 8px;
+        direction: rtl; /* Apply RTL to alerts */
+        text-align: right; /* Align alert text to the right */
     }}
     .stCode {{
-        background-color: #16213e; /* Darker background for code blocks */
+        background-color: #16213e;
         border-radius: 8px;
         padding: 15px;
+        direction: rtl; /* Apply RTL to code blocks */
+        text-align: right; /* Align code block text to the right */
     }}
     .stExpander {{
-        background-color: #16213e; /* Darker background for expanders */
+        background-color: #16213e;
         border-radius: 8px;
         padding: 10px;
         margin-bottom: 10px;
+        direction: rtl; /* Apply RTL to expanders */
+        text-align: right; /* Align expander text to the right */
     }}
     .stExpander > div > div > p {{
         color: #e0e0e0;
     }}
 
-    /* Footer styling */
     .footer {{
         position: fixed;
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #16213e; /* Footer background */
+        background-color: #16213e;
         color: #e0e0e0;
         text-align: center;
         padding: 10px 0;
         font-size: 0.9em;
+        direction: rtl; /* Apply RTL to footer */
     }}
     .footer a {{
-        color: #e94560; /* Accent color for footer links */
+        color: #e94560;
         text-decoration: none;
     }}
     .footer a:hover {{
@@ -132,13 +141,10 @@ custom_css = f"""
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# --- Main Dashboard Title and Welcome Message ---
 st.title("📈 داشبورد رمزارز گنجه")
 st.markdown("به داشبورد جامع رمزارز گنجه خوش آمدید! از ابزارهای زیر برای دریافت اطلاعات لحظه‌ای بازار استفاده کنید.")
 
-# --- Sidebar Navigation (Commands Menu) ---
 st.sidebar.header("دستورات")
-# This is for picking what command to run from the sidebar.
 command_choice = st.sidebar.radio(
     "یک دستور را انتخاب کنید:",
     (
@@ -157,17 +163,13 @@ command_choice = st.sidebar.radio(
         "سفارشات توکن",
         "اطلاعات معاملاتی"
     ),
-    index=0 # Starts on the Introduction page
+    index=0
 )
 
-# Small helper for coin names (not a big deal, just for display)
 coin_name_translations = {
     "bitcoin": "بیت‌کوین",
     "ethereum": "اتریوم"
 }
-
-# --- Command Logic: What happens when you pick a command ---
-# Now calling functions from the 'commands' module for each choice.
 
 if command_choice == "مقدمه":
     commands.display_introduction()
@@ -211,7 +213,6 @@ elif command_choice == "سفارشات توکن":
 elif command_choice == "اطلاعات معاملاتی":
     commands.display_trade_info()
 
-# --- Footer Section ---
 st.markdown(
     """
     <div class='footer'>
