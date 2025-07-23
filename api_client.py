@@ -1,4 +1,3 @@
-```python
 import requests
 import urllib.parse
 from datetime import datetime
@@ -314,4 +313,3 @@ def fetch_trade_info(token_address: str) -> tuple[list | None, str | None]:
         return pairs, None
     except requests.exceptions.RequestException as e:
         return None, f"خطایی هنگام دریافت داده رخ داد: {e}"
-```
