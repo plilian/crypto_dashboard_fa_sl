@@ -25,7 +25,7 @@ def display_introduction():
             "<div style='text-align: center;'>",
             unsafe_allow_html=True
         )
-        st.image("https://i.postimg.cc/Hn4j9GKB/photo-2024-12-21-15-21-12.jpg", width=250)
+        st.image("https://i.postimg.cc/wM9hDkM8/photo-2024-12-05-16-24-30.jpg", width=250)
         st.markdown(
             "</div>",
             unsafe_allow_html=True
