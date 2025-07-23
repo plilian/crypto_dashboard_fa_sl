@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import utils
 import api_client
@@ -517,4 +516,3 @@ def display_trade_info():
                     st.error(error)
         else:
             st.warning("لطفاً یک آدرس توکن وارد کنید.")
-```
